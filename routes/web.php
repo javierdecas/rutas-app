@@ -47,5 +47,26 @@ Route::match(['get', 'post'],'/edad', function (Request $req)
 
 Route::get('/cumple', function ()
 {
-	return view('cumple');
+	$hoy = new \DateTime();
+
+	$cumple = null;
+
+	$diferencia = null;
+
+	$esCumple = false;
+
+	if ($req->isMethod('post') && $req->has('fecha'))
+	{
+		$cumple = new \DateTime($req->input('fecha'));
+
+		if ($hoy->format('m-d') == $cumple->format('m-d'))
+		{
+			$esCumple = true;
+		}
+
+		//$diferencia = date_diff()($hoy, $fecha);
+
+	}
+
+	return view('edad', ['hoy' => $hoy->format('Y-m-d'), "diferencia" => $diferencia, "cumple" => $esCumple]);
 })->name("cumple");
